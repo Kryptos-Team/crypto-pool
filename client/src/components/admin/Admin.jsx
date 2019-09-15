@@ -14,7 +14,15 @@ class Admin extends Component {
     render() {
         return (
             <RAdmin dataProvider={dataProvider} dashboard={Dashboard} authProvider={adminAuthProvider}>
-                <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate} icon={UserIcon}/>
+                {permissions => [
+                    permissions === "superuser" || permissions === "staff" ?
+                        <Resource name="users"
+                                  list={UserList}
+                                  edit={permissions === "superuser" ? UserEdit : null}
+                                  create={permissions === "superuser" ? UserCreate : null}
+                                  icon={UserIcon}/>
+                        : null
+                ]}
             </RAdmin>
         );
     }
