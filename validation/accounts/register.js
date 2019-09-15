@@ -11,6 +11,7 @@ module.exports = function validateRegisterInput(data) {
     // Convert an empty field to an empty string so that we can use validator functions
     data.first_name = !isEmpty(data.first_name) ? data.first_name : "";
     data.last_name = !isEmpty(data.last_name) ? data.last_name : "";
+    data.username = !isEmpty(data.username) ? data.username : "";
     data.email = !isEmpty(data.email) ? data.email : "";
     data.password = !isEmpty(data.password) ? data.password : "";
     data.password_confirm = !isEmpty(data.password_confirm) ? data.password_confirm : "";
@@ -29,6 +30,13 @@ module.exports = function validateRegisterInput(data) {
         errors.email = "Email is required";
     } else if (!Validator.isEmail(data.email)) {
         errors.email = "Email is invalid";
+    }
+
+    // Username checks
+    if (Validator.isEmpty(data.username)) {
+        errors.username = "Username is required";
+    } else if (!Validator.isLength(data.username, {min: 6, max: 30})) {
+        errors.password = "Username length should be between 6-30 characters";
     }
 
     // Password checks

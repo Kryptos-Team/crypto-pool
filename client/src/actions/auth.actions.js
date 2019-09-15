@@ -10,7 +10,7 @@ import {GET_ERRORS, SET_CURRENT_USER, USER_LOADING} from "./types";
 // Login user
 export const loginUser = userData => dispatch => {
     axios
-        .post("/api/users/login", userData)
+        .post("/api/users/login/", userData)
         .then(response => {
             // Save to local storage
             const {token} = response.data;
@@ -59,7 +59,7 @@ export const logoutUser = () => dispatch => {
 export const registerUser = (userData, history) => dispatch => {
     axios
         .post("/api/users/register", userData)
-        .then(response => history.push("/login"))
+        .then(response => history.push("/login/"))
         .catch(error => dispatch({
                 type: GET_ERRORS,
                 payload: error.response.data

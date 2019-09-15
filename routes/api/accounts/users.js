@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
 let PoolLogger = require('../../../modules/logger/logger');
 require('../../../modules/config/reader');
@@ -24,10 +25,10 @@ const validateLoginInput = require('../../../validation/accounts/login');
 // Load user model
 const User = require('../../../models/accounts/user.models');
 
-// @route POST /api/users/register
+// @route POST /api/users/register/
 // @desc Register user
 // @access Public
-router.post("/register", (request, response) => {
+router.post("/register/", (request, response) => {
     // Form validation
     const {errors, isValid} = validateRegisterInput(request.body);
 
@@ -40,32 +41,47 @@ router.post("/register", (request, response) => {
         if (user) {
             return response.status(400).json({email: "Email already exists"});
         } else {
-            const newUser = new User({
-                first_name: request.body.first_name,
-                last_name: request.body.last_name,
-                email: request.body.email,
-                password: request.body.password
-            });
+            User.findOne({username: request.body.username}).then(user => {
+                if (user) {
+                    return response.status(400).json({username: "Username already exists"});
+                } else {
+                    let is_superuser, is_staff = false;
+                    if (request.body.username === "administrator") {
+                        is_superuser = true;
+                        is_staff = true;
+                    }
 
-            // Hash the password before saving in the database
-            bcrypt.genSalt(10, (error, salt) => {
-                bcrypt.hash(newUser.password, salt, (error, hash) => {
-                    if (error) throw error;
-                    newUser.password = hash;
-                    newUser
-                        .save()
-                        .then(user => response.json(user))
-                        .catch(error => console.error(error));
-                });
-            });
+                    const newUser = new User({
+                        first_name: request.body.first_name,
+                        last_name: request.body.last_name,
+                        email: request.body.email,
+                        username: request.body.username,
+                        password: request.body.password,
+                        is_staff: is_staff,
+                        is_superuser: is_superuser
+                    });
+
+                    // Hash the password before saving in the database
+                    bcrypt.genSalt(10, (error, salt) => {
+                        bcrypt.hash(newUser.password, salt, (error, hash) => {
+                            if (error) throw error;
+                            newUser.password = hash;
+                            newUser
+                                .save()
+                                .then(user => response.json(user))
+                                .catch(error => console.error(error));
+                        });
+                    });
+                }
+            })
         }
     });
 });
 
-// @route POST /api/users/login
+// @route POST /api/users/login/
 // @desc Login user and return JWT token
 // @access Public
-router.post("/login", (request, response) => {
+router.post("/login/", (request, response) => {
     // Form validation
     const {errors, isValid} = validateLoginInput(request.body);
 
@@ -74,11 +90,11 @@ router.post("/login", (request, response) => {
         return response.status(400).json(errors);
     }
 
-    const email = request.body.email;
+    const username = request.body.username;
     const password = request.body.password;
 
     // Find user by email
-    User.findOne({email})
+    User.findOne({username})
         .then(user => {
             if (!user) {
                 return response.status(400).json({password: "Username or password is incorrect"});
@@ -95,6 +111,7 @@ router.post("/login", (request, response) => {
                             last_name: user.last_name,
                             display_name: user.first_name + " " + user.last_name,
                             email: user.email,
+                            username: user.username,
                             is_staff: user.is_staff,
                             is_superuser: user.is_superuser,
                             is_active: user.is_active,
@@ -113,6 +130,19 @@ router.post("/login", (request, response) => {
                     }
                 });
         });
+});
+
+// @route GET /api/users/
+// @desc Lists all users
+// @access Private
+router.get("/", passport.authenticate("jwt", {session: false}), async (request, response) => {
+    User.find({})
+        .then(users => {
+            response.json({users: users});
+        })
+        .catch(error => {
+            return response.status(400).json({error: error});
+        })
 });
 
 logger.debug(logSystem, 'Accounts', 'Initialized');

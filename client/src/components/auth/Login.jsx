@@ -13,7 +13,7 @@ class Login extends Component {
     constructor() {
         super();
         this.state = {
-            email: "",
+            username: "",
             password: "",
             errors: {}
         };
@@ -45,7 +45,7 @@ class Login extends Component {
     onSubmit = e => {
         e.preventDefault();
         const userData = {
-            email: this.state.email,
+            username: this.state.username,
             password: this.state.password
         };
         this.props.loginUser(userData);
@@ -56,21 +56,21 @@ class Login extends Component {
         return (
             <Container>
                 <Form onSubmit={this.onSubmit}>
-                    <Form.Group controlId="email">
-                        <Form.Label>Email Address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" onChange={this.onChange}
-                                      value={this.state.email} error={errors.email}
-                                      className={classNames("", {invalid: errors.email || errors.emailNotFound})}/>
+                    <Form.Group controlId="username">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control type="text" placeholder="john.doe" onChange={this.onChange}
+                                      value={this.state.username} error={errors.username}
+                                      className={classNames("", {invalid: errors.username})}/>
                         <FormControl.Feedback type="invalid" style={{display: "block"}}>
-                            {errors.email}
+                            {errors.username}
                         </FormControl.Feedback>
                     </Form.Group>
 
                     <Form.Group controlId="password">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" onChange={this.onChange}
+                        <Form.Control type="password" placeholder="******" onChange={this.onChange}
                                       value={this.state.password} error={errors.password}
-                                      className={classNames("", {invalid: errors.password || errors.passwordIncorrect})}/>
+                                      className={classNames("", {invalid: errors.password})}/>
                         <FormControl.Feedback type="invalid" style={{display: "block"}}>
                             {errors.password}
                         </FormControl.Feedback>

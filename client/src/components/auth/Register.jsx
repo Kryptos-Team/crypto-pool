@@ -17,6 +17,7 @@ class Register extends Component {
             first_name: "",
             last_name: "",
             email: "",
+            username: "",
             password: "",
             password_confirm: "",
             errors: {}
@@ -34,7 +35,7 @@ class Register extends Component {
     componentDidMount() {
         // If logged in and user navigates to Register page, should redirect them to dashboard
         if (this.props.auth.isAuthenticated) {
-            this.props.history.push("/dashboard");
+            this.props.history.push("/dashboard/");
         }
     }
 
@@ -47,6 +48,7 @@ class Register extends Component {
             first_name: this.state.first_name,
             last_name: this.state.last_name,
             email: this.state.email,
+            username: this.state.username,
             password: this.state.password,
             password_confirm: this.state.password_confirm
         };
@@ -83,15 +85,30 @@ class Register extends Component {
                             </Form.Group>
                         </Col>
                     </Form.Row>
-                    <Form.Group controlId="email">
-                        <Form.Label>Email Address</Form.Label>
-                        <Form.Control type="email" placeholder="john.doe@example.com" onChange={this.onChange}
-                                      value={this.state.email} error={errors.email}
-                                      className={classNames("", {invalid: errors.email})}/>
-                        <FormControl.Feedback type="invalid" style={{display: "block"}}>
-                            {errors.email}
-                        </FormControl.Feedback>
-                    </Form.Group>
+                    <Form.Row>
+                        <Col>
+                            <Form.Group controlId="email">
+                                <Form.Label>Email Address</Form.Label>
+                                <Form.Control type="email" placeholder="john.doe@example.com" onChange={this.onChange}
+                                              value={this.state.email} error={errors.email}
+                                              className={classNames("", {invalid: errors.email})}/>
+                                <FormControl.Feedback type="invalid" style={{display: "block"}}>
+                                    {errors.email}
+                                </FormControl.Feedback>
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group controlId="username">
+                                <Form.Label>Username</Form.Label>
+                                <Form.Control type="text" placeholder="john.doe" onChange={this.onChange}
+                                              value={this.state.username} error={errors.username}
+                                              className={classNames("", {invalid: errors.username})}/>
+                                <FormControl.Feedback type="invalid" style={{display: "block"}}>
+                                    {errors.username}
+                                </FormControl.Feedback>
+                            </Form.Group>
+                        </Col>
+                    </Form.Row>
 
                     <Form.Row>
                         <Col>
