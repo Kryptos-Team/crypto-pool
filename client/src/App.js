@@ -14,7 +14,7 @@ import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import jwt_decode from "jwt-decode";
-import setAuthToken from "./utils/setAuthToken";
+import setAuthToken from "./helpers/setAuthToken";
 import {logoutUser, setCurrentUser} from "./actions/auth.actions";
 
 // Check for token to keep the user logged in
@@ -32,14 +32,13 @@ if (localStorage.getItem("jwtToken")) {
         // Logout user
         store.dispatch(logoutUser());
         // Redirect to login
-        window.location.href = "./login";
+        window.location.href = "/login";
     }
 }
 
 class App extends Component {
     render() {
         return (
-
             <Provider store={store}>
                 <Router>
                     <NavBar/>

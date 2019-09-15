@@ -38,6 +38,7 @@ connectDB();
 
 // Passport middleware
 app.use(passport.initialize());
+app.use(passport.session());
 // Passport configuration
 require('./modules/accounts/passport');
 

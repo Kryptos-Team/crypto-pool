@@ -93,6 +93,7 @@ router.post("/login", (request, response) => {
                             id: user.id,
                             first_name: user.first_name,
                             last_name: user.last_name,
+                            display_name: user.first_name + " " + user.last_name,
                             email: user.email,
                             is_staff: user.is_staff,
                             is_superuser: user.is_superuser,
@@ -101,7 +102,7 @@ router.post("/login", (request, response) => {
                         };
 
                         // Sign token
-                        jwt.sign(payload, configuration.accounts.secretOrKey, {expiresIn: 1}, (error, token) => {
+                        jwt.sign(payload, configuration.accounts.secretOrKey, {expiresIn: "1d"}, (error, token) => {
                             response.json({
                                 success: true,
                                 token: "Bearer " + token
