@@ -1,0 +1,10 @@
+{
+  "logLevel": "debug",
+  "logColors": true,
+  "db": {
+    "mongoURI": "mongodb://localhost:27017/mining?retryWrites=true&w=majority"
+  },
+  "accounts": {
+    "secretOrKey": "$3cr3t@rK3y"
+  }
+}
