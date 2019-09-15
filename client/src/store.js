@@ -3,22 +3,36 @@
  */
 
 import {applyMiddleware, compose, createStore} from "redux";
-import thunk from "redux-thunk";
+import createSagaMiddleware from 'redux-saga';
+import {formMiddleware} from 'react-admin';
+import {routerMiddleware} from 'react-router-redux';
+import {createHashHistory} from 'history';
 import rootReducer from "./reducers";
-import logger from 'redux-logger'
+import rootSaga from "./rootSaga";
+import thunk from "redux-thunk";
+import {logger} from "redux-logger/src";
 
-const initialState = {};
-const middleware = [thunk, logger];
+export const adminHistory = createHashHistory();
+const appMiddleware = [thunk, logger];
 
-const store = createStore(
-    rootReducer,
-    initialState,
-    compose(
-        applyMiddleware(...middleware),
-        (window.__REDUX_DEVTOOLS_EXTENSION__ &&
-            window.__REDUX_DEVTOOLS_EXTENSION__()) ||
-        compose
-    )
-);
+const configureStore = initialState => {
+    const sagaMiddleware = createSagaMiddleware();
 
-export default store;
+    const composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()) || compose;
+
+    const store = createStore(rootReducer,
+        initialState,
+        composeEnhancers(
+            applyMiddleware(
+                sagaMiddleware,
+                formMiddleware,
+                routerMiddleware(adminHistory),
+                ...appMiddleware
+            )
+        )
+    );
+    sagaMiddleware.run(rootSaga);
+    return store;
+};
+
+export const store = configureStore();

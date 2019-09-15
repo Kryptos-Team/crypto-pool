@@ -19,9 +19,9 @@ class NavBar extends Component {
         return (
             <Navbar bg="light" expand="lg">
                 {auth.isAuthenticated && (auth.user.is_staff || auth.user.is_superuser) &&
-                <Navbar.Brand href="/admin">Mining Pool</Navbar.Brand>}
+                <Navbar.Brand href="/admin/">Mining Pool</Navbar.Brand>}
                 {auth.isAuthenticated && !auth.user.is_staff &&
-                <Navbar.Brand href="/home">Mining Pool</Navbar.Brand>}
+                <Navbar.Brand href="/home/">Mining Pool</Navbar.Brand>}
                 {!auth.isAuthenticated &&
                 <Navbar.Brand href="/">Mining Pool</Navbar.Brand>}
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -31,8 +31,8 @@ class NavBar extends Component {
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
-                    {!auth.isAuthenticated && <Nav.Link href="/login">Login</Nav.Link>}
-                    {!auth.isAuthenticated && <Nav.Link href="/register">Register</Nav.Link>}
+                    {!auth.isAuthenticated && <Nav.Link href="/login/">Login</Nav.Link>}
+                    {!auth.isAuthenticated && <Nav.Link href="/register/">Register</Nav.Link>}
                     {auth.isAuthenticated &&
                     <NavDropdown title={auth.user.display_name} id="collasible-nav-dropdown">
                         <NavDropdown.Item href="#logout" onClick={this.onLogoutClick}>Logout</NavDropdown.Item>
