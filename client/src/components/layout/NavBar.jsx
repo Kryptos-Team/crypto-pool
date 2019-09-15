@@ -18,12 +18,7 @@ class NavBar extends Component {
         const {auth} = this.props;
         return (
             <Navbar bg="light" expand="lg">
-                {auth.isAuthenticated && (auth.user.is_staff || auth.user.is_superuser) &&
-                <Navbar.Brand href="/admin/">Mining Pool</Navbar.Brand>}
-                {auth.isAuthenticated && !auth.user.is_staff &&
-                <Navbar.Brand href="/home/">Mining Pool</Navbar.Brand>}
-                {!auth.isAuthenticated &&
-                <Navbar.Brand href="/">Mining Pool</Navbar.Brand>}
+                <Navbar.Brand href="/">Mining Pool</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">

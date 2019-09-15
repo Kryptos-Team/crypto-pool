@@ -9,6 +9,7 @@ import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard";
+import Admin from "./components/admin/Admin";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
                 <Route exact path="/" component={Landing}/>
                 <Route exact path="/login/" component={Login}/>
                 <Route exact path="/register/" component={Register}/>
+                <Route exact path="/admin/" component={Admin}/>
                 <Switch>
                     <PrivateRoute exact path="/dashboard/" component={Dashboard}/>
                 </Switch>
