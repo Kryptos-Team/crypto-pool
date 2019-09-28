@@ -23,30 +23,30 @@ export default (type, params) => {
                 return response.json();
             })
             .then(({token}) => {
-                sessionStorage.setItem('jwtToken', token);
+                sessionStorage.setItem('token', token);
             });
     }
 
     if (type === AUTH_LOGOUT) {
-        sessionStorage.removeItem('jwtToken');
+        sessionStorage.removeItem('token');
         return Promise.resolve();
     }
 
     if (type === AUTH_ERROR) {
         const status = params.status;
         if (status === 401 || status === 403) {
-            sessionStorage.removeItem('jwtToken');
+            sessionStorage.removeItem('token');
             return Promise.reject();
         }
         return Promise.resolve();
     }
 
     if (type === AUTH_CHECK) {
-        return sessionStorage.getItem('jwtToken') ? Promise.resolve() : Promise.reject();
+        return sessionStorage.getItem('token') ? Promise.resolve() : Promise.reject();
     }
 
     if (type === AUTH_GET_PERMISSIONS) {
-        const r = decodeJwt(sessionStorage.getItem('jwtToken'));
+        const r = decodeJwt(sessionStorage.getItem('token'));
         if (r.is_superuser) {
             role = "superuser";
         } else if (r.is_staff) {

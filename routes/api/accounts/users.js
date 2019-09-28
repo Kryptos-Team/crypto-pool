@@ -6,6 +6,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const decodeJwt = require('jwt-decode');
+
 const passport = require('passport');
 
 let PoolLogger = require('../../../modules/logger/logger');
@@ -136,13 +138,18 @@ router.post("/login/", (request, response) => {
 // @desc Lists all users
 // @access Private
 router.get("/", passport.authenticate("jwt", {session: false}), async (request, response) => {
-    User.find({})
-        .then(users => {
-            response.json({users: users});
-        })
-        .catch(error => {
-            return response.status(400).json({error: error});
-        })
+    const user = decodeJwt(request.headers.authorization);
+    if (user.is_staff || user.is_superuser) {
+        User.find({})
+            .then(users => {
+                response.json({data: users});
+            })
+            .catch(error => {
+                return response.status(400).json({error: error});
+            })
+    } else {
+        return response.status(401).json({error: "Unauthorized"});
+    }
 });
 
 logger.debug(logSystem, 'Accounts', 'Initialized');

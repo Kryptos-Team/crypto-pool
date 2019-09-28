@@ -17,6 +17,7 @@ const path = require('path');
 const os = require('os');
 const async = require('async');
 const cluster = require('cluster');
+const cors = require('cors');
 
 const PoolLogger = require('./modules/logger/logger');
 require('./modules/config/reader');
@@ -30,6 +31,7 @@ const logSystem = 'Server';
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/client/public')));

@@ -4,8 +4,10 @@
 
 import React from 'react';
 import {
+    BooleanField,
     Create,
     Datagrid,
+    DateField,
     Edit,
     EmailField,
     Filter,
@@ -35,8 +37,14 @@ export const UserList = (props) => (
             medium={
                 <Datagrid rowClick="edit">
                     <TextField source="id"/>
-                    <TextField source="name"/>
+                    <TextField source="username"/>
+                    <TextField source="first_name"/>
+                    <TextField source="last_name"/>
                     <EmailField source="email"/>
+                    <BooleanField source="is_staff"/>
+                    <BooleanField source="is_active"/>
+                    <BooleanField source="is_superuser"/>
+                    <DateField source="date_joined"/>
                 </Datagrid>
             }
         />
@@ -50,8 +58,13 @@ const UserTitle = ({record}) => {
 export const UserEdit = props => (
     <Edit title={<UserTitle/>} {...props}>
         <SimpleForm>
-            <TextInput source="name"/>
-            <TextInput source="email"/>
+            <TextField source="username"/>
+            <TextField source="first_name"/>
+            <TextField source="last_name"/>
+            <EmailField source="email"/>
+            <BooleanField source="is_staff"/>
+            <BooleanField source="is_active"/>
+            <BooleanField source="is_superuser"/>
         </SimpleForm>
     </Edit>
 );
@@ -59,8 +72,13 @@ export const UserEdit = props => (
 export const UserCreate = props => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="name"/>
-            <TextInput source="email"/>
+            <TextField source="username"/>
+            <TextField source="first_name"/>
+            <TextField source="last_name"/>
+            <EmailField source="email"/>
+            <BooleanField source="is_staff"/>
+            <BooleanField source="is_active"/>
+            <BooleanField source="is_superuser"/>
         </SimpleForm>
     </Create>
 );
