@@ -2,6 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/383e3bcc865e46679a21ba20c5e0f65d)](https://app.codacy.com/gh/Kryptos-Team/crypto-pool?utm_source=github.com&utm_medium=referral&utm_content=Kryptos-Team/crypto-pool&utm_campaign=Badge_Grade_Settings)
+
 In the project directory, you can run:
 
 ### `npm start`
