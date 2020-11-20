@@ -44,7 +44,7 @@
     "ra-data-simple-rest": "^2.9.6",
     "ra-jsonapi-client": "^0.5.0",
     "validation": "0.0.1",
-    "validator": "^11.1.0"
+    "validator": "^12.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.2"
